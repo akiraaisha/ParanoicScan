@@ -3,29 +3,29 @@ ParanoicScan
 
 Vulnerability Scanner
 
-Today I bring you a program with the following options:
+Today I bring you a program with the following options:<br>
 
-[+++] Options
-[++] Google & Bing Scanner
+[+++] Options<br>
+[++] Google & Bing Scanner<br>
 
-    XSS
-    SQL GET / POST
-    SQL GET
-    SQL GET + Admin
-    Directory listing
-    MSSQL
-    Jet Database
-    Oracle
-    LFI
-    RFI
-    Full Source Discloure
-    HTTP Information
+    XSS<br>
+    SQL GET / POST<br>
+    SQL GET<br>
+    SQL GET + Admin<br>
+    Directory listing<br>
+    MSSQL<br>
+    Jet Database<br>
+    Oracle<br>
+    LFI<br>
+    RFI<br>
+    Full Source Discloure<br>
+    HTTP Information<br>
 
-[++] SQLi Scanner
-[++] Bypass Admin
-[++] Exploit FSD Manager
-[++] Paths Finder
-[++] IP Locate
-[++] Crack MD5
-[++] Panel Finder
-[++] Console
+[++] SQLi Scanner<br>
+[++] Bypass Admin<br>
+[++] Exploit FSD Manager<br>
+[++] Paths Finder<br>
+[++] IP Locate<br>
+[++] Crack MD5<br>
+[++] Panel Finder<br>
+[++] Console<br>
