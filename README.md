@@ -62,13 +62,13 @@ Google & Bing Scanner that also scan :<br>
 
 A video with examples of usage<br>
 
-[youtube]http://www.youtube.com/watch?v=-M59SEVTevc[/youtube]<br>
+http://www.youtube.com/watch?v=-M59SEVTevc<br>
 
 Available for download here :<br>
 
-[URL=https://github.com/DoddyHackman/ParanoicScan]Github[/URL]<br>
-[URL=https://code.google.com/p/paranoicscan/source/browse/]GoogleCode[/URL]<br>
-[URL=https://sourceforge.net/projects/paranoicscan/?source=directory]SourceForge[/URL]<br>
-[URL=http://pastebin.com/yKfJhCT2]PasteBin[/URL]<br>
+https://github.com/DoddyHackman/ParanoicScan<br>
+https://code.google.com/p/paranoicscan/source/browse/<br>
+https://sourceforge.net/projects/paranoicscan/?source=directory<br>
+http://pastebin.com/yKfJhCT2<br>
 
 Good Bye<br>
